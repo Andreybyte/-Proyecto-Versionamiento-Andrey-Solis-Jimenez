@@ -7,160 +7,100 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
- 
-    :root {
-      --bg: #0a0a0f;
-      --surface: #13131a;
-      --accent: #6c63ff;
-      --accent2: #ff6584;
-      --text: #f0f0f5;
-      --muted: #8888aa;
-      --card: #1a1a26;
-    }
- 
+    :root { --bg:#0a0a0f; --surface:#13131a; --accent:#6c63ff; --accent2:#ff6584; --text:#f0f0f5; --muted:#8888aa; --card:#1a1a26; }
     html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+    .reveal { opacity:0; transform:translateY(60px); transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1); }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .reveal-left { opacity:0; transform:translateX(-60px); transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1); }
+    .reveal-left.visible { opacity:1; transform:translateX(0); }
+    .reveal-right { opacity:0; transform:translateX(60px); transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1); }
+    .reveal-right.visible { opacity:1; transform:translateX(0); }
  
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      overflow-x: hidden;
+    nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:1.2rem 2.5rem; display:flex; justify-content:space-between; align-items:center; background:rgba(10,10,15,0.7); backdrop-filter:blur(16px); border-bottom:1px solid rgba(108,99,255,0.12); }
+    .nav-logo { font-family:'Syne',sans-serif; font-weight:800; font-size:1.15rem; letter-spacing:0.04em; color:var(--accent); }
+    .nav-links { display:flex; gap:2rem; list-style:none; }
+    .nav-links a { color:var(--muted); text-decoration:none; font-size:0.85rem; letter-spacing:0.06em; text-transform:uppercase; transition:color .25s; }
+    .nav-links a:hover { color:var(--text); }
+ 
+    #hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding:10rem 8vw 6rem; position:relative; overflow:hidden; }
+    .hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 70% 60% at 80% 50%,rgba(108,99,255,.13) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 20% 80%,rgba(255,101,132,.08) 0%,transparent 60%); pointer-events:none; }
+    .hero-eyebrow { font-size:.75rem; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); margin-bottom:1.2rem; font-weight:400; }
+    h1 { font-family:'Syne',sans-serif; font-size:clamp(3.5rem,10vw,8rem); font-weight:800; line-height:.95; letter-spacing:-.03em; margin-bottom:2rem; }
+    h1 span { color:var(--accent); }
+    .hero-sub { font-size:clamp(1rem,2vw,1.2rem); color:var(--muted); font-weight:300; max-width:480px; line-height:1.7; margin-bottom:3rem; }
+    .scroll-hint { display:flex; align-items:center; gap:.6rem; color:var(--muted); font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; animation:bounce 2s infinite; }
+    .scroll-hint svg { width:18px; height:18px; }
+    @keyframes bounce { 0%,100% { transform:translateY(0); } 50% { transform:translateY(6px); } }
+ 
+    section { padding:8rem 8vw; position:relative; }
+    .section-label { font-size:.7rem; letter-spacing:.25em; text-transform:uppercase; color:var(--accent); margin-bottom:.8rem; }
+    h2 { font-family:'Syne',sans-serif; font-size:clamp(2rem,5vw,3.5rem); font-weight:800; letter-spacing:-.02em; line-height:1.1; margin-bottom:3rem; }
+ 
+    #sobre-mi { background:var(--surface); }
+    .info-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.5rem; }
+    .info-card { background:var(--card); border:1px solid rgba(108,99,255,.15); border-radius:16px; padding:2rem 1.8rem; position:relative; overflow:hidden; transition:transform .3s,border-color .3s; }
+    .info-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--accent),var(--accent2)); }
+    .info-card:hover { transform:translateY(-6px); border-color:rgba(108,99,255,.4); }
+    .info-card .label { font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:.5rem; }
+    .info-card .value { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:700; color:var(--text); }
+    .divider { width:60px; height:3px; background:linear-gradient(90deg,var(--accent),var(--accent2)); border-radius:2px; margin:3rem 0; }
+ 
+    #pibble { background:var(--bg); display:flex; align-items:center; gap:5vw; flex-wrap:wrap; }
+    .pibble-text { flex:1; min-width:280px; }
+    .pibble-text p { color:var(--muted); font-size:1.1rem; line-height:1.8; font-style:italic; max-width:420px; }
+    .pibble-img-wrap { flex:1; min-width:280px; position:relative; display:flex; justify-content:center; }
+    .pibble-img-wrap::before { content:''; position:absolute; width:380px; height:380px; background:radial-gradient(circle,rgba(108,99,255,.25) 0%,transparent 70%); border-radius:50%; top:50%; left:50%; transform:translate(-50%,-50%); z-index:0; }
+    .pibble-img { width:340px; height:400px; object-fit:cover; border-radius:24px; position:relative; z-index:1; border:2px solid rgba(108,99,255,.3); box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 60px rgba(108,99,255,.15); transition:transform .4s,box-shadow .4s; }
+    .pibble-img:hover { transform:scale(1.03) rotate(-1deg); box-shadow:0 40px 100px rgba(0,0,0,.6),0 0 80px rgba(108,99,255,.25); }
+    .pibble-badge { position:absolute; bottom:-14px; right:-14px; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:white; font-family:'Syne',sans-serif; font-weight:700; font-size:.75rem; letter-spacing:.1em; text-transform:uppercase; padding:.6rem 1rem; border-radius:50px; z-index:2; box-shadow:0 8px 24px rgba(108,99,255,.4); }
+ 
+    /* ── INTERESES ── */
+    #intereses { background: var(--surface); }
+ 
+    .interest-intro {
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      max-width: 680px;
+      margin-bottom: 4rem;
+    }
+    .interest-intro strong { color: var(--text); }
+ 
+    .interest-blocks {
+      display: flex;
+      flex-direction: column;
+      gap: 6rem;
     }
  
-    .reveal {
-      opacity: 0;
-      transform: translateY(60px);
-      transition: opacity 0.9s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1);
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .reveal-left {
-      opacity: 0; transform: translateX(-60px);
-      transition: opacity 0.9s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1);
-    }
-    .reveal-left.visible { opacity: 1; transform: translateX(0); }
-    .reveal-right {
-      opacity: 0; transform: translateX(60px);
-      transition: opacity 0.9s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1);
-    }
-    .reveal-right.visible { opacity: 1; transform: translateX(0); }
- 
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 1.2rem 2.5rem;
-      display: flex; justify-content: space-between; align-items: center;
-      background: rgba(10,10,15,0.7);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(108,99,255,0.12);
-    }
-    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.15rem; letter-spacing: 0.04em; color: var(--accent); }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.25s; }
-    .nav-links a:hover { color: var(--text); }
- 
-    #hero {
-      min-height: 100vh;
-      display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
-      padding: 10rem 8vw 6rem;
-      position: relative; overflow: hidden;
-    }
-    .hero-bg {
-      position: absolute; inset: 0;
-      background:
-        radial-gradient(ellipse 70% 60% at 80% 50%, rgba(108,99,255,0.13) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(255,101,132,0.08) 0%, transparent 60%);
-      pointer-events: none;
-    }
-    .hero-eyebrow { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.2rem; font-weight: 400; }
-    h1 { font-family: 'Syne', sans-serif; font-size: clamp(3.5rem, 10vw, 8rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.03em; margin-bottom: 2rem; }
-    h1 span { color: var(--accent); }
-    .hero-sub { font-size: clamp(1rem, 2vw, 1.2rem); color: var(--muted); font-weight: 300; max-width: 480px; line-height: 1.7; margin-bottom: 3rem; }
-    .scroll-hint { display: flex; align-items: center; gap: 0.6rem; color: var(--muted); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; animation: bounce 2s infinite; }
-    .scroll-hint svg { width: 18px; height: 18px; }
-    @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
- 
-    section { padding: 8rem 8vw; position: relative; }
-    .section-label { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; }
-    h2 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 3rem; }
- 
-    #sobre-mi { background: var(--surface); }
-    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
-    .info-card { background: var(--card); border: 1px solid rgba(108,99,255,0.15); border-radius: 16px; padding: 2rem 1.8rem; position: relative; overflow: hidden; transition: transform 0.3s, border-color 0.3s; }
-    .info-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
-    .info-card:hover { transform: translateY(-6px); border-color: rgba(108,99,255,0.4); }
-    .info-card .label { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
-    .info-card .value { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--text); }
-    .divider { width: 60px; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 2px; margin: 3rem 0; }
- 
-    /* ── PIBBLE SECTION ── */
-    #pibble {
-      background: var(--bg);
+    .interest-block {
       display: flex;
       align-items: center;
-      gap: 5vw;
+      gap: 4vw;
       flex-wrap: wrap;
     }
+    .interest-block.reverse { flex-direction: row-reverse; }
  
-    .pibble-text { flex: 1; min-width: 280px; }
-    .pibble-text p {
-      color: var(--muted);
-      font-size: 1.1rem;
-      line-height: 1.8;
-      font-style: italic;
-      max-width: 420px;
-    }
+    .interest-copy { flex: 1; min-width: 260px; }
+    .interest-copy .icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .interest-copy h3 { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; margin-bottom: 0.8rem; }
+    .interest-copy p { color: var(--muted); line-height: 1.8; font-size: 1rem; max-width: 420px; }
  
-    .pibble-img-wrap {
-      flex: 1;
-      min-width: 280px;
-      position: relative;
-      display: flex;
-      justify-content: center;
-    }
+    .interest-imgs { flex: 1; min-width: 260px; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
  
-    .pibble-img-wrap::before {
-      content: '';
-      position: absolute;
-      width: 380px; height: 380px;
-      background: radial-gradient(circle, rgba(108,99,255,0.25) 0%, transparent 70%);
-      border-radius: 50%;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 0;
-    }
- 
-    .pibble-img {
-      width: 340px;
-      height: 400px;
+    .int-img {
+      width: 180px;
+      height: 200px;
       object-fit: cover;
-      border-radius: 24px;
-      position: relative;
-      z-index: 1;
-      border: 2px solid rgba(108,99,255,0.3);
-      box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 60px rgba(108,99,255,0.15);
-      transition: transform 0.4s, box-shadow 0.4s;
+      border-radius: 18px;
+      border: 1px solid rgba(108,99,255,.2);
+      box-shadow: 0 20px 60px rgba(0,0,0,.4);
+      transition: transform .4s, box-shadow .4s;
     }
-    .pibble-img:hover {
-      transform: scale(1.03) rotate(-1deg);
-      box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 80px rgba(108,99,255,0.25);
-    }
+    .int-img:hover { transform: translateY(-8px) rotate(1.5deg); box-shadow: 0 30px 80px rgba(0,0,0,.5), 0 0 40px rgba(108,99,255,.2); }
+    .int-img:nth-child(even) { margin-top: 2rem; }
  
-    .pibble-badge {
-      position: absolute;
-      bottom: -14px; right: -14px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: white;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.6rem 1rem;
-      border-radius: 50px;
-      z-index: 2;
-      box-shadow: 0 8px 24px rgba(108,99,255,0.4);
-    }
- 
-    footer { text-align: center; padding: 3rem; color: var(--muted); font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    footer { text-align:center; padding:3rem; color:var(--muted); font-size:.8rem; border-top:1px solid rgba(255,255,255,.05); }
   </style>
 </head>
 <body>
@@ -177,9 +117,9 @@
   <section id="hero">
     <div class="hero-bg"></div>
     <p class="hero-eyebrow reveal">Bienvenido a mi perfil</p>
-    <h1 class="reveal" style="transition-delay:0.1s">Andrey<br><span>Solís</span></h1>
-    <p class="hero-sub reveal" style="transition-delay:0.2s">Estudiante apasionado por la tecnología, la ciencia y el deporte. Siempre buscando aprender y crecer.</p>
-    <div class="scroll-hint reveal" style="transition-delay:0.3s">
+    <h1 class="reveal" style="transition-delay:.1s">Andrey<br><span>Solís</span></h1>
+    <p class="hero-sub reveal" style="transition-delay:.2s">Estudiante apasionado por la tecnología, la ciencia y el deporte. Siempre buscando aprender y crecer.</p>
+    <div class="scroll-hint reveal" style="transition-delay:.3s">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
       Scroll para explorar
     </div>
@@ -189,15 +129,14 @@
     <p class="section-label reveal">01 — Perfil</p>
     <h2 class="reveal">Sobre mí</h2>
     <div class="info-grid">
-      <div class="info-card reveal" style="transition-delay:0.0s"><div class="label">Nombre</div><div class="value">Andrey Solís</div></div>
-      <div class="info-card reveal" style="transition-delay:0.1s"><div class="label">Edad</div><div class="value">16 años</div></div>
-      <div class="info-card reveal" style="transition-delay:0.2s"><div class="label">Vive en</div><div class="value">La Pradera</div></div>
-      <div class="info-card reveal" style="transition-delay:0.3s"><div class="label">Estudia en</div><div class="value">CTPAIRA</div></div>
+      <div class="info-card reveal" style="transition-delay:.0s"><div class="label">Nombre</div><div class="value">Andrey Solís</div></div>
+      <div class="info-card reveal" style="transition-delay:.1s"><div class="label">Edad</div><div class="value">16 años</div></div>
+      <div class="info-card reveal" style="transition-delay:.2s"><div class="label">Vive en</div><div class="value">La Pradera</div></div>
+      <div class="info-card reveal" style="transition-delay:.3s"><div class="label">Estudia en</div><div class="value">CTPAIRA</div></div>
     </div>
     <div class="divider reveal"></div>
   </section>
  
-  <!-- COMMIT 2: SECCIÓN PIBBLE -->
   <section id="pibble">
     <div class="pibble-text reveal-left">
       <p class="section-label">02 — Compañero</p>
@@ -205,12 +144,57 @@
       <p>Este pequeño gigante con cara de pocos amigos pero corazón enorme representa todo lo que me gusta: actitud, carácter y ternura sin esfuerzo.</p>
     </div>
     <div class="pibble-img-wrap reveal-right">
-      <img
-        class="pibble-img"
-        src="https://images.unsplash.com/photo-1583511655826-05700d52f4d9?w=600&q=80"
-        alt="Pibble adorable"
-      />
+      <img class="pibble-img" src="https://images.unsplash.com/photo-1583511655826-05700d52f4d9?w=600&q=80" alt="Pibble adorable"/>
       <div class="pibble-badge">🐾 Pibble Power</div>
+    </div>
+  </section>
+ 
+  <!-- COMMIT 3: INTERESES -->
+  <section id="intereses">
+    <p class="section-label reveal">03 — Lo que me mueve</p>
+    <h2 class="reveal">Mis intereses</h2>
+ 
+    <div class="interest-blocks">
+ 
+      <!-- DEPORTE -->
+      <div class="interest-block reveal">
+        <div class="interest-copy reveal-left">
+          <div class="icon">🏋️‍♂️</div>
+          <h3>Deporte</h3>
+          <p>Me encanta ir al gimnasio y hacer ciclismo de ruta. Mover el cuerpo me ayuda a despejar la mente y superarme cada día.</p>
+        </div>
+        <div class="interest-imgs reveal-right">
+          <img class="int-img" src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&q=80" alt="Gimnasio"/>
+          <img class="int-img" src="https://images.unsplash.com/photo-1541625602330-2277a4c46182?w=400&q=80" alt="Ciclismo"/>
+        </div>
+      </div>
+ 
+      <!-- INFORMÁTICA -->
+      <div class="interest-block reverse reveal">
+        <div class="interest-copy reveal-right">
+          <div class="icon">💻</div>
+          <h3>Informática</h3>
+          <p>Todo el mundo de la tecnología me apasiona: el desarrollo de software, las redes, la inteligencia artificial, los sistemas. Si tiene pantalla, me interesa.</p>
+        </div>
+        <div class="interest-imgs reveal-left">
+          <img class="int-img" src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&q=80" alt="Computadora"/>
+          <img class="int-img" src="https://images.unsplash.com/photo-1555066931-4365d14431b9?w=400&q=80" alt="Código"/>
+        </div>
+      </div>
+ 
+      <!-- CIENCIA -->
+      <div class="interest-block reveal">
+        <div class="interest-copy reveal-left">
+          <div class="icon">🔭</div>
+          <h3>La ciencia del todo</h3>
+          <p>¿Cómo nació el universo? ¿De qué estamos hechos? ¿Hasta dónde puede llegar el humano? ¿Cómo se comportan las energías? Estas preguntas me quitan el sueño en el buen sentido.</p>
+        </div>
+        <div class="interest-imgs reveal-right">
+          <img class="int-img" src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=400&q=80" alt="Universo"/>
+          <img class="int-img" src="https://images.unsplash.com/photo-1507668077129-56e32842fceb?w=400&q=80" alt="Ciencia"/>
+        </div>
+      </div>
+ 
     </div>
   </section>
  
@@ -220,10 +204,8 @@
  
   <script>
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.15 });
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
     document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
   </script>
 </body>
