@@ -16,6 +16,8 @@
     .reveal-left.visible { opacity:1; transform:translateX(0); }
     .reveal-right { opacity:0; transform:translateX(60px); transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1); }
     .reveal-right.visible { opacity:1; transform:translateX(0); }
+    .reveal-scale { opacity:0; transform:scale(.85); transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1); }
+    .reveal-scale.visible { opacity:1; transform:scale(1); }
  
     nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:1.2rem 2.5rem; display:flex; justify-content:space-between; align-items:center; background:rgba(10,10,15,0.7); backdrop-filter:blur(16px); border-bottom:1px solid rgba(108,99,255,0.12); }
     .nav-logo { font-family:'Syne',sans-serif; font-weight:800; font-size:1.15rem; letter-spacing:0.04em; color:var(--accent); }
@@ -31,7 +33,7 @@
     .hero-sub { font-size:clamp(1rem,2vw,1.2rem); color:var(--muted); font-weight:300; max-width:480px; line-height:1.7; margin-bottom:3rem; }
     .scroll-hint { display:flex; align-items:center; gap:.6rem; color:var(--muted); font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; animation:bounce 2s infinite; }
     .scroll-hint svg { width:18px; height:18px; }
-    @keyframes bounce { 0%,100% { transform:translateY(0); } 50% { transform:translateY(6px); } }
+    @keyframes bounce { 0%,100%{transform:translateY(0);}50%{transform:translateY(6px);} }
  
     section { padding:8rem 8vw; position:relative; }
     .section-label { font-size:.7rem; letter-spacing:.25em; text-transform:uppercase; color:var(--accent); margin-bottom:.8rem; }
@@ -52,55 +54,82 @@
     .pibble-img-wrap { flex:1; min-width:280px; position:relative; display:flex; justify-content:center; }
     .pibble-img-wrap::before { content:''; position:absolute; width:380px; height:380px; background:radial-gradient(circle,rgba(108,99,255,.25) 0%,transparent 70%); border-radius:50%; top:50%; left:50%; transform:translate(-50%,-50%); z-index:0; }
     .pibble-img { width:340px; height:400px; object-fit:cover; border-radius:24px; position:relative; z-index:1; border:2px solid rgba(108,99,255,.3); box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 60px rgba(108,99,255,.15); transition:transform .4s,box-shadow .4s; }
-    .pibble-img:hover { transform:scale(1.03) rotate(-1deg); box-shadow:0 40px 100px rgba(0,0,0,.6),0 0 80px rgba(108,99,255,.25); }
-    .pibble-badge { position:absolute; bottom:-14px; right:-14px; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:white; font-family:'Syne',sans-serif; font-weight:700; font-size:.75rem; letter-spacing:.1em; text-transform:uppercase; padding:.6rem 1rem; border-radius:50px; z-index:2; box-shadow:0 8px 24px rgba(108,99,255,.4); }
+    .pibble-img:hover { transform:scale(1.03) rotate(-1deg); }
+    .pibble-badge { position:absolute; bottom:-14px; right:-14px; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:white; font-family:'Syne',sans-serif; font-weight:700; font-size:.75rem; letter-spacing:.1em; text-transform:uppercase; padding:.6rem 1rem; border-radius:50px; z-index:2; }
  
-    /* ── INTERESES ── */
-    #intereses { background: var(--surface); }
+    #intereses { background:var(--surface); }
+    .interest-intro { color:var(--muted); font-size:1.05rem; line-height:1.8; max-width:680px; margin-bottom:4rem; }
+    .interest-blocks { display:flex; flex-direction:column; gap:6rem; }
+    .interest-block { display:flex; align-items:center; gap:4vw; flex-wrap:wrap; }
+    .interest-block.reverse { flex-direction:row-reverse; }
+    .interest-copy { flex:1; min-width:260px; }
+    .interest-copy .icon { font-size:2.5rem; margin-bottom:1rem; }
+    .interest-copy h3 { font-family:'Syne',sans-serif; font-size:1.8rem; font-weight:800; margin-bottom:.8rem; }
+    .interest-copy p { color:var(--muted); line-height:1.8; font-size:1rem; max-width:420px; }
+    .interest-imgs { flex:1; min-width:260px; display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; }
+    .int-img { width:180px; height:200px; object-fit:cover; border-radius:18px; border:1px solid rgba(108,99,255,.2); box-shadow:0 20px 60px rgba(0,0,0,.4); transition:transform .4s,box-shadow .4s; }
+    .int-img:hover { transform:translateY(-8px) rotate(1.5deg); }
+    .int-img:nth-child(even) { margin-top:2rem; }
  
-    .interest-intro {
-      color: var(--muted);
-      font-size: 1.05rem;
-      line-height: 1.8;
-      max-width: 680px;
-      margin-bottom: 4rem;
+    /* ── METAS ── */
+    #metas { background: var(--bg); }
+ 
+    .metas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-bottom: 5rem;
     }
-    .interest-intro strong { color: var(--text); }
  
-    .interest-blocks {
-      display: flex;
-      flex-direction: column;
-      gap: 6rem;
+    .meta-card {
+      background: var(--card);
+      border: 1px solid rgba(108,99,255,.15);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform .35s, box-shadow .35s;
+      position: relative;
+    }
+    .meta-card:hover { transform: translateY(-10px); box-shadow: 0 30px 80px rgba(0,0,0,.5), 0 0 40px rgba(108,99,255,.15); }
+    .meta-card img { width:100%; height:220px; object-fit:cover; display:block; }
+    .meta-card-body { padding:1.8rem; }
+    .meta-card-body .num { font-family:'Syne',sans-serif; font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); margin-bottom:.5rem; }
+    .meta-card-body h3 { font-family:'Syne',sans-serif; font-size:1.25rem; font-weight:800; margin-bottom:.6rem; }
+    .meta-card-body p { color:var(--muted); font-size:.9rem; line-height:1.7; }
+ 
+    /* ── PIBBLE GALLERY ── */
+    #galeria { background: var(--surface); }
+ 
+    .gallery-intro { color:var(--muted); max-width:500px; margin-bottom:3rem; font-size:1rem; line-height:1.7; }
+ 
+    .pibble-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
     }
  
-    .interest-block {
-      display: flex;
-      align-items: center;
-      gap: 4vw;
-      flex-wrap: wrap;
+    .gallery-item {
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 3/4;
+      border: 1px solid rgba(108,99,255,.15);
     }
-    .interest-block.reverse { flex-direction: row-reverse; }
- 
-    .interest-copy { flex: 1; min-width: 260px; }
-    .interest-copy .icon { font-size: 2.5rem; margin-bottom: 1rem; }
-    .interest-copy h3 { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; margin-bottom: 0.8rem; }
-    .interest-copy p { color: var(--muted); line-height: 1.8; font-size: 1rem; max-width: 420px; }
- 
-    .interest-imgs { flex: 1; min-width: 260px; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
- 
-    .int-img {
-      width: 180px;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 18px;
-      border: 1px solid rgba(108,99,255,.2);
-      box-shadow: 0 20px 60px rgba(0,0,0,.4);
-      transition: transform .4s, box-shadow .4s;
+    .gallery-item img {
+      width:100%; height:100%; object-fit:cover;
+      transition: transform .6s cubic-bezier(.16,1,.3,1);
     }
-    .int-img:hover { transform: translateY(-8px) rotate(1.5deg); box-shadow: 0 30px 80px rgba(0,0,0,.5), 0 0 40px rgba(108,99,255,.2); }
-    .int-img:nth-child(even) { margin-top: 2rem; }
+    .gallery-item:hover img { transform: scale(1.08); }
+    .gallery-item .overlay {
+      position:absolute; inset:0;
+      background: linear-gradient(to top, rgba(10,10,15,.8) 0%, transparent 60%);
+      display:flex; align-items:flex-end; padding:1.2rem;
+      opacity:0; transition:opacity .3s;
+    }
+    .gallery-item:hover .overlay { opacity:1; }
+    .overlay span { font-family:'Syne',sans-serif; font-size:.8rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--accent2); }
  
-    footer { text-align:center; padding:3rem; color:var(--muted); font-size:.8rem; border-top:1px solid rgba(255,255,255,.05); }
+    footer { text-align:center; padding:4rem 2rem 3rem; color:var(--muted); font-size:.8rem; border-top:1px solid rgba(255,255,255,.05); }
+    .footer-logo { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; color:var(--accent); margin-bottom:1rem; }
   </style>
 </head>
 <body>
@@ -114,6 +143,7 @@
     </ul>
   </nav>
  
+  <!-- HERO -->
   <section id="hero">
     <div class="hero-bg"></div>
     <p class="hero-eyebrow reveal">Bienvenido a mi perfil</p>
@@ -125,6 +155,7 @@
     </div>
   </section>
  
+  <!-- SOBRE MÍ -->
   <section id="sobre-mi">
     <p class="section-label reveal">01 — Perfil</p>
     <h2 class="reveal">Sobre mí</h2>
@@ -137,6 +168,7 @@
     <div class="divider reveal"></div>
   </section>
  
+  <!-- PIBBLE -->
   <section id="pibble">
     <div class="pibble-text reveal-left">
       <p class="section-label">02 — Compañero</p>
@@ -149,15 +181,12 @@
     </div>
   </section>
  
-  <!-- COMMIT 3: INTERESES -->
+  <!-- INTERESES -->
   <section id="intereses">
     <p class="section-label reveal">03 — Lo que me mueve</p>
     <h2 class="reveal">Mis intereses</h2>
- 
     <div class="interest-blocks">
- 
-      <!-- DEPORTE -->
-      <div class="interest-block reveal">
+      <div class="interest-block">
         <div class="interest-copy reveal-left">
           <div class="icon">🏋️‍♂️</div>
           <h3>Deporte</h3>
@@ -168,22 +197,18 @@
           <img class="int-img" src="https://images.unsplash.com/photo-1541625602330-2277a4c46182?w=400&q=80" alt="Ciclismo"/>
         </div>
       </div>
- 
-      <!-- INFORMÁTICA -->
-      <div class="interest-block reverse reveal">
+      <div class="interest-block reverse">
         <div class="interest-copy reveal-right">
           <div class="icon">💻</div>
           <h3>Informática</h3>
-          <p>Todo el mundo de la tecnología me apasiona: el desarrollo de software, las redes, la inteligencia artificial, los sistemas. Si tiene pantalla, me interesa.</p>
+          <p>Todo el mundo de la tecnología me apasiona: desarrollo de software, redes, IA, sistemas. Si tiene pantalla, me interesa.</p>
         </div>
         <div class="interest-imgs reveal-left">
           <img class="int-img" src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&q=80" alt="Computadora"/>
           <img class="int-img" src="https://images.unsplash.com/photo-1555066931-4365d14431b9?w=400&q=80" alt="Código"/>
         </div>
       </div>
- 
-      <!-- CIENCIA -->
-      <div class="interest-block reveal">
+      <div class="interest-block">
         <div class="interest-copy reveal-left">
           <div class="icon">🔭</div>
           <h3>La ciencia del todo</h3>
@@ -194,19 +219,96 @@
           <img class="int-img" src="https://images.unsplash.com/photo-1507668077129-56e32842fceb?w=400&q=80" alt="Ciencia"/>
         </div>
       </div>
+    </div>
+  </section>
+ 
+  <!-- COMMIT 4: METAS -->
+  <section id="metas">
+    <p class="section-label reveal">04 — Hacia dónde voy</p>
+    <h2 class="reveal">Mis metas</h2>
+ 
+    <div class="metas-grid">
+ 
+      <div class="meta-card reveal" style="transition-delay:.0s">
+        <img src="https://images.unsplash.com/photo-1504450758481-7338eba7524a?w=600&q=80" alt="Michael Jordan campeón"/>
+        <div class="meta-card-body">
+          <div class="num">Meta 01</div>
+          <h3>Ser el mejor en lo que hago</h3>
+          <p>Como Jordan persiguió cada campeonato, yo persigo la excelencia en todo lo que me propongo. Sin excusas.</p>
+        </div>
+      </div>
+ 
+      <div class="meta-card reveal" style="transition-delay:.15s">
+        <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=600&q=80" alt="Ayudando a la humanidad"/>
+        <div class="meta-card-body">
+          <div class="num">Meta 02</div>
+          <h3>Ser alguien de provecho para la humanidad</h3>
+          <p>Quiero que mi paso por este mundo marque una diferencia real. Construir, aportar, dejar algo mejor de lo que encontré.</p>
+        </div>
+      </div>
+ 
+      <div class="meta-card reveal" style="transition-delay:.3s">
+        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80" alt="Sumar siempre"/>
+        <div class="meta-card-body">
+          <div class="num">Meta 03</div>
+          <h3>Sumar más que restar</h3>
+          <p>Cada día elegir ser una influencia positiva. En mi familia, con mis amigos, en mi comunidad y donde sea que esté.</p>
+        </div>
+      </div>
  
     </div>
   </section>
  
+  <!-- GALERÍA PIBBLES FINALES -->
+  <section id="galeria">
+    <p class="section-label reveal">🐾 Galería especial</p>
+    <h2 class="reveal">Pibbles que alegran el día</h2>
+    <p class="gallery-intro reveal">Porque la vida es mejor con estos gorditos adorables. Galería de puras buenas vibras.</p>
+ 
+    <div class="pibble-gallery">
+ 
+      <div class="gallery-item reveal-scale" style="transition-delay:.0s">
+        <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=500&q=80" alt="Pibble 1"/>
+        <div class="overlay"><span>🐾 Pibble #1</span></div>
+      </div>
+ 
+      <div class="gallery-item reveal-scale" style="transition-delay:.1s">
+        <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=500&q=80" alt="Pibble 2"/>
+        <div class="overlay"><span>🐾 Pibble #2</span></div>
+      </div>
+ 
+      <div class="gallery-item reveal-scale" style="transition-delay:.2s">
+        <img src="https://images.unsplash.com/photo-1477884213360-7e9d7dcc1e48?w=500&q=80" alt="Pibble 3"/>
+        <div class="overlay"><span>🐾 Pibble #3</span></div>
+      </div>
+ 
+      <div class="gallery-item reveal-scale" style="transition-delay:.3s">
+        <img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=500&q=80" alt="Pibble 4"/>
+        <div class="overlay"><span>🐾 Pibble #4</span></div>
+      </div>
+ 
+      <div class="gallery-item reveal-scale" style="transition-delay:.4s">
+        <img src="https://images.unsplash.com/photo-1561037404-61cd46aa615b?w=500&q=80" alt="Pibble 5"/>
+        <div class="overlay"><span>🐾 Pibble #5</span></div>
+      </div>
+ 
+    </div>
+  </section>
+ 
+  <!-- FOOTER -->
   <footer>
-    <p>© 2025 Andrey Solís · Proyecto de Versionamiento</p>
+    <div class="footer-logo">AS</div>
+    <p>Andrey Solís · CTPAIRA · La Pradera</p>
+    <p style="margin-top:.5rem">© 2025 · Proyecto de Versionamiento con GitHub</p>
   </footer>
  
   <script>
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
     }, { threshold: 0.12 });
-    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => observer.observe(el));
   </script>
 </body>
 </html>
